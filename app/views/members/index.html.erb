@@ -1,0 +1,36 @@
+<% provide(:title, 'All Members') %>
+<h1>All Members</h1>
+<%= will_paginate %>
+<table class="table2">
+        <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Login</th>
+                <th>Sevens Id</th>
+                <th>Source</th>
+                <th>Rate</th>
+                <th>Currency</th>
+                <th>Status</th>
+                <th>Position C/F/T</th>
+        </tr>
+        <% @members.each do |mem| %>
+                <% ra = Rate.find_by_member_id(mem.id) %>
+                <% ms = MemberStatus.find_by_member_id(mem.id) %>
+                <% pt1 = PositionTaking.find_by_member_id_and_market_id(mem.id, 1) %>
+                <% pt2 = PositionTaking.find_by_member_id_and_market_id(mem.id, 2) %>
+                <% pt3 = PositionTaking.find_by_member_id_and_market_id(mem.id, 3) %>
+                <tr>
+                        <td><%= mem.first_name %></td>
+                        <td><%= mem.last_name %></td>
+                        <td><%= mem.login %></td>
+                        <td><%= mem.sevens_id %></td>
+                        <td><%= User.find(mem.source).login %></td>
+                        <td><%= ra.rate %></td>
+                        <td><%= ra.currency %></td>
+                        <td><%= ms.status %></td>
+                        <td><%= pt1.position %>/<%= pt2.position %>/<%= pt3.position %></td>
+                </tr>
+        <% end %>
+</table>
+
+<%= will_paginate %>

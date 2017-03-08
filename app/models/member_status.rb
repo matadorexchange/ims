@@ -1,0 +1,2 @@
+class MemberStatus < ApplicationRecord
+end

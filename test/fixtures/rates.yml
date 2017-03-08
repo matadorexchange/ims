@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  member_id: MyString
+  integer: MyString
+  rate: 1
+  currency: MyString
+
+two:
+  member_id: MyString
+  integer: MyString
+  rate: 1
+  currency: MyString
