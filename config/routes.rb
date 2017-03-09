@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+
   get 'sessions/new'
 
   get 'market/new'
@@ -30,5 +32,7 @@ Rails.application.routes.draw do
   resources :members
   resources :users
   resources :rates
-  
+
+  get '/master_agents', to: 'master_agents#new'
+  post '/master_agents', to: 'master_agents#create'
 end

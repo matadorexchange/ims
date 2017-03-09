@@ -1,0 +1,36 @@
+<% provide(:title, 'MasterAgent') %>
+<h1>Master Agent</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3" id="masterAgent">
+    <%= form_for(@masterAgent) do |f| %>
+
+     <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :commission %>
+      <%= f.number_field :commission %>
+
+      <%= f.label :login %>
+      <%= f.text_field :login %>
+
+        <br/><br/>
+      <%= f.submit "Create Master Agent", class: "btn btn-primary" %>
+      <% end %>
+  </div>
+</div>
+<h1>All Agents</h1>
+
+<table class="table2">
+        <tr>
+                <th>Name</th>
+                <th>Commission</th>
+                <th>Login</th>
+        </tr>
+        <% @masterAgents.each do |ma| %>
+                <tr>
+                        <td><%= ma.name %></td>
+                        <td><%= ma.commission %></td>
+                        <td><%= ma.login %></td>
+                </tr>
+        <% end %>
+</table>

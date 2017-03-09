@@ -1,0 +1,2 @@
+module MasterAgentsHelper
+end

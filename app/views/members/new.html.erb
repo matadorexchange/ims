@@ -1,5 +1,5 @@
 <% provide(:title, 'Members') %>
-<h1>Members</h1>
+<h1>Create Member</h1>
 <div class="row">
   <div class="col-md-6 col-md-offset-3" id="createMember">
     <%= form_for(@member) do |f| %>
@@ -25,6 +25,9 @@
 	<%= r.label :currency %>
         <%= r.select :currency, options_for_select([ "INR", "USD", "AED"]), :class => 'genForm_dropBox' %>
       <% end %>
+
+      <%= f.label :master_agent_id%>
+      <%= f.select :master_agent_id, options_from_collection_for_select(MasterAgent.all, :id, :login) %>
 
       <%= fields_for :member_status do |mss| %>
          <%= mss.label :status %>

@@ -10,6 +10,7 @@
                 <th>Source</th>
                 <th>Rate</th>
                 <th>Currency</th>
+		<th>Master Agent</th>
                 <th>Status</th>
                 <th>Position C/F/T</th>
         </tr>
@@ -27,9 +28,11 @@
                         <td><%= User.find(mem.source).login %></td>
                         <td><%= ra.rate %></td>
                         <td><%= ra.currency %></td>
+			<td><%= MasterAgent.find(mem.master_agent_id).login %></td>
                         <td><%= ms.status %></td>
-                        <td><%= pt1.position %>/<%= pt2.position %>/<%= pt3.position %></td>
-                </tr>
+			<%= puts mem.id %>
+                	<td><%= pt1.position %>/<%= pt2.position %>/<%= pt3.position %></td>
+		</tr>
         <% end %>
 </table>
 
