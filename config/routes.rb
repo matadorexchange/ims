@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   get '/users', to: 'users#new'
   post '/users', to: 'users#create'
 
+  get '/editusers', to: 'users#edit'
+  post '/editusers', to: 'users#update'
   resources :members
   resources :users
   resources :rates

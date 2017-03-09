@@ -1,4 +1,5 @@
 <footer class="footer">
+  <% if logged_in %>
   <small>
   	@Matador Exchange
   </small>
@@ -8,4 +9,5 @@
       <li><%= link_to "Contact", '#' %></li>
     </ul>
   </nav>
+  <% end %>
 </footer>
