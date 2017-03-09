@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  week_id: 1
+  value: 1
+  downline: 1
+  upline: 1
+  agent_commission: 1
+  profit_loss: 1
+
+two:
+  week_id: 1
+  value: 1
+  downline: 1
+  upline: 1
+  agent_commission: 1
+  profit_loss: 1

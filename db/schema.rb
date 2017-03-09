@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309210822) do
+ActiveRecord::Schema.define(version: 20170309222844) do
 
   create_table "agent_commissions", primary_key: ["id", "week_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "id",              null: false
     t.integer  "week_id",         null: false
     t.integer  "master_agent_id"
-    t.string   "coin"
-    t.string   "value"
+    t.integer  "coin"
+    t.integer  "value"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
@@ -95,10 +95,9 @@ ActiveRecord::Schema.define(version: 20170309210822) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_settlement_summaries", primary_key: ["id", "week_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "id",         null: false
-    t.integer  "week_id",    null: false
-    t.string   "user_id"
+  create_table "user_settlement_summaries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "week_id"
+    t.integer  "user_id"
     t.integer  "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

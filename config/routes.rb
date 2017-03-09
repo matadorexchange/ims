@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
 
 
+  get 'user_settlement_summaries/new'
+
+  get 'settlement_summaries/new'
+
+  get 'settlements/new'
+
+  get 'agent_commissions/new'
+
   get 'sessions/new'
 
   get 'market/new'

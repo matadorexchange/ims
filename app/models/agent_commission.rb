@@ -1,0 +1,2 @@
+class AgentCommission < ApplicationRecord
+end

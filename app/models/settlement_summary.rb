@@ -1,0 +1,2 @@
+class SettlementSummary < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+module UserSettlementSummariesHelper
+end
