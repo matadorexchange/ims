@@ -33,11 +33,11 @@
 		</tr>
 	<% end %>
 		<% agentComm = AgentCommission.find_by_week_id_and_master_agent_id(@weekID, agentId) %>
-		<% commRate = (agentComm.commission_val.to_f/agentComm.value)*(-1) %>
+		<% commRate = (agentComm.commission_val.to_f/agentComm.value)*(-1)*100 %>
 		<th colspan="2">Agent Commission Calculations</th>
 		<th><%= agentComm.coins %></th>
 		<th><%= agentComm.value %></th>
-		<th colspan="2"><%= "Total Commission: " + agentComm.commission_val.to_s + " @ Rate: " + (commRate*100).to_s + "%" %></th>  
+		<th colspan="2"><%= "Total Commission: " + agentComm.commission_val.to_s + " @ Rate: " + (commRate.round).to_s + "%" %></th>  
 	</table>
 	<br />
 <% end %>

@@ -26,7 +26,7 @@ class SettlementsController < ApplicationController
 
   def import
   	importData(params[:file])
-  	redirect_to :back
+  	redirect_to :controler => "settlement_summaries", :action => "index"
   end
 
   def importData(file)
