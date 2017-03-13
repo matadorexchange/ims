@@ -43,4 +43,9 @@ Rails.application.routes.draw do
 
   get '/master_agents', to: 'master_agents#new'
   post '/master_agents', to: 'master_agents#create'
+  
+  get '/settlements', to: 'settlements#new'
+  resources :settlements do
+  	collection { post :import }
+  end
 end

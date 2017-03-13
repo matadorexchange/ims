@@ -1,2 +1,8 @@
-<h1>Settlements#new</h1>
-<p>Find me in app/views/settlements/new.html.erb</p>
+<h1>Import New Settlement</h1>
+
+<div>
+<%= form_tag import_settlements_path, multipart: true do %>
+  <%= file_field_tag :file %><br/>
+  <%= submit_tag "Import" %>
+<% end %>
+</div>
