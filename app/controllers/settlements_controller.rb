@@ -109,6 +109,7 @@ class SettlementsController < ApplicationController
 	settlementSummaryObj.agent_commission = ssAgentCommission
 	profit_loss = ssValue*(-1) + ssUpline - ssAgentCommission
 	settlementSummaryObj.profit_loss = profit_loss
+	settlementSummaryObj.currency = "INR"
 	settlementSummaryObj.save
 
 
@@ -117,7 +118,7 @@ class SettlementsController < ApplicationController
 		ussObj = UserSettlementSummary.new
 		ussObj.week_id = ssWeekId
 		ussObj.user_id = u.id
-		ussObj.value = (profit_loss*(-1)*u.share_holding)/100
+		ussObj.value = (profit_loss*u.share_holding)/100
 		ussObj.save
 	end		
   end

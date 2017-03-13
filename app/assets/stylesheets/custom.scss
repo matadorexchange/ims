@@ -9,6 +9,8 @@ $gray-medium-light: #eaeaea;
 
 body {
   padding-top: 60px;
+  background-image: image-url('img2.jpg');
+  background-size: 100% 100%
 }
 
 section {
@@ -182,7 +184,7 @@ table.table2 {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
-    background-color: #4CAF50;
+    background-color: #2B65EC;
     color: white;
     border: 1px solid #ddd;
     padding: 8px;
@@ -197,4 +199,5 @@ table.table2 {
     border-bottom: 1px solid $gray-lighter;
   }
 }
+
 

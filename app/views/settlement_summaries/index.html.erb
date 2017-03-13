@@ -1,0 +1,34 @@
+<% provide(:title, 'All Settlement Summaries') %>
+<h1>All Settlement - Summary</h1>
+<%= will_paginate %>
+<table class="table2">
+        <tr>
+                <th>Week ID</th>
+                <th>Value</th>
+                <th>Downline Coins</th>
+                <th>Upline Value</th>
+                <th>Agent Commission Total</th>
+                <th>Profit/Loss</th>
+                <th>Currency</th>
+		<% User.all.each do |u| %>
+                	<th><%= u.login + " - Profit/Loss" %></th>
+		<% end %>
+        </tr>
+        <% @settlement_summaries.each do |ss| %>
+                <tr>
+                        <td><%= ss.week_id %></td>
+                        <td><% if ss.value < 0 %> <font color="red"/> <% else %> <font color="#6CC417"/><% end %> <%= ss.value %></td>
+			<td><% if ss.downline < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ss.downline %></td>
+                        <td><% if ss.upline < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ss.upline %></td>
+                        <td><% if ss.agent_commission < 0 %> <font color="#6CC417"/><% else %><font color="red"/><% end %><%= ss.agent_commission %></td>
+                        <td><% if ss.profit_loss < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ss.profit_loss %></td>
+                        <td><%= ss.currency %></td>
+                        <% User.all.each do |u1| %>
+                                <% ussVal = UserSettlementSummary.find_by_user_id_and_week_id(u1.id, ss.week_id).value %>
+                                <td><% if ussVal < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ussVal%></td>
+                        <% end %>
+                </tr>
+        <% end %>
+</table>
+
+<%= will_paginate %>

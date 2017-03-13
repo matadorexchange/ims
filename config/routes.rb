@@ -48,4 +48,6 @@ Rails.application.routes.draw do
   resources :settlements do
   	collection { post :import }
   end
+
+  get '/settlement_summaries', to: 'settlement_summaries#index'
 end

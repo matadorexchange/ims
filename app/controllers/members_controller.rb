@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
 
   def index
- 	@members = Member.paginate(:page => params[:page], :per_page => 10)
+ 	@members = Member.paginate(:page => params[:page], :per_page => 10, :order => 'login')
   	@rates = Rate.all
 	@users = User.all
   end
