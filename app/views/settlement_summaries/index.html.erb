@@ -14,9 +14,10 @@
                 	<th><%= u.login + " - Profit/Loss" %></th>
 		<% end %>
         </tr>
+	
         <% @settlement_summaries.each do |ss| %>
                 <tr>
-                        <td><%= ss.week_id %></td>
+                        <td><%= link_to ss.week_id, {:controller => "settlements", :action => "show", :week => ss.week_id } %></td>
                         <td><% if ss.value < 0 %> <font color="red"/> <% else %> <font color="#6CC417"/><% end %> <%= ss.value %></td>
 			<td><% if ss.downline < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ss.downline %></td>
                         <td><% if ss.upline < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ss.upline %></td>
@@ -32,3 +33,4 @@
 </table>
 
 <%= will_paginate %>
+

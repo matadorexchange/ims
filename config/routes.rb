@@ -49,5 +49,7 @@ Rails.application.routes.draw do
   	collection { post :import }
   end
 
+  get '/settlementdetails', to: 'settlements#show'
+
   get '/settlement_summaries', to: 'settlement_summaries#index'
 end

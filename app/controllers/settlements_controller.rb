@@ -3,6 +3,27 @@ class SettlementsController < ApplicationController
 
   end
 
+  def index
+  end
+
+  def show
+  	settlements = Settlement.where(week_id: params[:week])
+	@sMap = Hash.new
+	@weekID = params[:week]
+	singleS = Settlement.find_by_week_id(params[:week])
+	@fromDate = singleS.from_date
+	@endDate = singleS.end_date
+	settlements.each do |s|
+		agentId = MasterAgent.find(Member.find(s.member_id).master_agent_id)
+		sArray = @sMap[agentId.id]
+		if !sArray
+			sArray = Array.new
+		end
+		sArray.push(s)
+		@sMap[agentId.id] = sArray	
+	end
+  end
+
   def import
   	importData(params[:file])
   	redirect_to :back
