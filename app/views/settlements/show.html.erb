@@ -4,12 +4,12 @@
 <% @sMap.each do |agentId, sArray|  %>
 	<br />
 	<% agentLogin = MasterAgent.find(agentId).login %>
-	<% if (agentLogin != "none") %>
-		<h2>Details for Master Agent: <%= MasterAgent.find(agentId).login %></h2>
+	<% if (agentLogin == "other") %>
+		<h2> Other Source </h2>
 	<% elsif (agentLogin == "none") %>
 		<h2> Details for Members (no MA) </h2>
 	<% else %>
-		<h2> Other Sources </h2>
+		<h2>Details for Master Agent: <%= MasterAgent.find(agentId).login %></h2>
 	<% end %>
 	<table class="table2">
 		<th>Member Login</th>
@@ -20,24 +20,24 @@
 		<th>Currency</th>	
 	<% sArray.each do |s| %>
 		<tr>
-			<% if (s.source != "other") %>
-				<td><%=Member.find(s.member_id).login%></td>
-			<% else %>
-				<td>Other</td>
-			<% end %>
+			<td><%=Member.find(s.member_id).login%></td>
 			<td><%= s.source %></td>
 			<td><% if s.coins < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= s.coins %></td>
 			<td><% if s.value < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= s.value %></td>
-			<td><%= (s.value/s.coins).to_s %></td>
+			<td><% if s.coins != 0 %><%= (s.value/s.coins).to_s %><% else %> 0 <% end %></td>
 			<td><%= s.currency %>
 		</tr>
 	<% end %>
 		<% agentComm = AgentCommission.find_by_week_id_and_master_agent_id(@weekID, agentId) %>
+		<% if (agentComm.value != 0) %>
 		<% commRate = (agentComm.commission_val.to_f/agentComm.value)*(-1)*100 %>
-		<th colspan="2">Agent Commission Calculations</th>
-		<th><%= agentComm.coins %></th>
-		<th><%= agentComm.value %></th>
-		<th colspan="2"><%= "Total Commission: " + agentComm.commission_val.to_s + " @ Rate: " + (commRate.round).to_s + "%" %></th>  
+		<% else %>
+		<% commRate = 0 %>
+		<% end %>
+		<th colspan="2" style="background-color: #cc9900">Agent Calculations</th>
+		<th style="background-color: #cc9900"><%= agentComm.coins %></th>
+		<th style="background-color: #cc9900"><%= agentComm.value %></th>
+		<th colspan="2" style="background-color: #cc9900"><%= "Total Commission: " + agentComm.commission_val.to_s + " @ Rate: " + (commRate.round).to_s + "%" %></th>  
 	</table>
 	<br />
 <% end %>

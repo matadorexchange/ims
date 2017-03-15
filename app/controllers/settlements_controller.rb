@@ -26,7 +26,7 @@ class SettlementsController < ApplicationController
 
   def import
   	importData(params[:file])
-  	redirect_to :controler => "settlement_summaries", :action => "index"
+  	redirect_to :back
   end
 
   def importData(file)
@@ -69,23 +69,28 @@ class SettlementsController < ApplicationController
 			rateToCal = rateObj.rate
 			sCurrency = rateObj.currency
  			sVal = sCoins * rateToCal
+			conversionRate = row["rate_to_use"]
 			if (sCurrency == "AED")
-				sVal = sCoins * rateToCal * 18.9
+				sVal = sCoins * rateToCal * conversionRate
 			end
+		elsif(row["source"] == "upline")
+                        ssUpline = row["value"]
 		else
 			sVal = row["value"]
 		end
-		settleObj.value = sVal
+
+		if (row["source"] == "upline")
+			settleObj.value = ssUpline
+		else
+			settleObj.value = sVal
+		end
 		settleObj.currency = to_currency
 		settleObj.save
-
+		
 		#calculations for Settlement Summary
 		ssWeekId = row["week_id"]
 		ssValue = ssValue + sVal
 		ssDownline = ssDownline + sCoins
-		if(row["source"] == "upline")
-			ssUpline = sVal
-		end
 
 		#calculate agent commission
                 agent_id = Member.find_by_login(row["member_id"]).master_agent_id
@@ -98,8 +103,11 @@ class SettlementsController < ApplicationController
                 agentCoins = agentSubCommMap["total_coins"]
 		agentCoins = agentCoins + sCoins
 		agentTotalValue = agentSubCommMap["total_val"]
-		agentTotalValue = agentTotalValue + sVal 
-		
+		agentTotalValue = agentTotalValue + sVal
+		if(row["source"] == "upline")
+			agentTotalValue = agentTotalValue + ssUpline
+		end
+	
 		agentSubCommMap["total_coins"] = agentCoins
 		agentSubCommMap["total_val"] = agentTotalValue
 		agentCommMap[agent_id] = agentSubCommMap
@@ -126,9 +134,9 @@ class SettlementsController < ApplicationController
 	settlementSummaryObj.week_id = ssWeekId
 	settlementSummaryObj.value = ssValue*(-1)
 	settlementSummaryObj.downline = ssDownline*(-1)
-	settlementSummaryObj.upline = ssUpline
+	settlementSummaryObj.upline = ssUpline*(-1)
 	settlementSummaryObj.agent_commission = ssAgentCommission
-	profit_loss = ssValue*(-1) + ssUpline - ssAgentCommission
+	profit_loss = ssValue*(-1) + ssUpline*(-1) - ssAgentCommission
 	settlementSummaryObj.profit_loss = profit_loss
 	settlementSummaryObj.currency = "INR"
 	settlementSummaryObj.save

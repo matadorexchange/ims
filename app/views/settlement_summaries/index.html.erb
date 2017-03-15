@@ -14,7 +14,12 @@
                 	<th><%= u.login + " - Profit/Loss" %></th>
 		<% end %>
         </tr>
-	
+	<% ssTotalValue = 0 %>
+	<% ssTotalDownline = 0 %>
+	<% ssTotalUpline = 0 %>
+	<% ssTotalAgentCommission = 0 %>
+	<% ssPL = 0 %>
+	<% ussMap = Hash.new %>
         <% @settlement_summaries.each do |ss| %>
                 <tr>
                         <td><%= link_to ss.week_id, {:controller => "settlements", :action => "show", :week => ss.week_id } %></td>
@@ -27,9 +32,35 @@
                         <% User.all.each do |u1| %>
                                 <% ussVal = UserSettlementSummary.find_by_user_id_and_week_id(u1.id, ss.week_id).value %>
                                 <td><% if ussVal < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= ussVal%></td>
-                        <% end %>
+				<% userTotal = ussMap[u1.id] 
+				   if !userTotal 
+					userTotal = 0 
+				   end
+				   userTotal = userTotal + ussVal
+				   ussMap[u1.id] = userTotal
+				%>
+			<% end %>
+			<%
+			ssTotalValue = ssTotalValue + ss.value
+			ssTotalDownline = ssTotalDownline + ss.downline
+			ssTotalUpline = ssTotalUpline + ss.upline
+			ssTotalAgentCommission = ssTotalAgentCommission + ss.agent_commission
+			ssPL = ssPL + ss.profit_loss
+			%>	
                 </tr>
         <% end %>
+	<tr>
+		<th style="background-color: #cc9900"><b>Summary</b></th>
+		<th style="background-color: #cc9900"><%= ssTotalValue %></th>
+		<th style="background-color: #cc9900"><%= ssTotalDownline %></th>
+		<th style="background-color: #cc9900"><%= ssTotalUpline %></th>
+		<th style="background-color: #cc9900"><%= ssTotalAgentCommission %></th>
+		<th style="background-color: #cc9900"><%= ssPL %></th>
+		<th style="background-color: #cc9900">-</th>
+		<% ussMap.each do |key, val| %>
+			<th style="background-color: #cc9900"><%= val %></th>
+		<% end %>
+	</tr>
 </table>
 
 <%= will_paginate %>
