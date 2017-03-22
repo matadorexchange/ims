@@ -23,7 +23,7 @@
                 <tr>
                         <td><%= mem.first_name %></td>
                         <td><%= mem.last_name %></td>
-                        <td><%= mem.login %></td>
+                        <td><%= link_to mem.login, {:controller => "members", :action => "show", :login => mem.login} %></td>
                         <td><%= mem.sevens_id %></td>
                         <td><%= User.find(mem.source).login %></td>
                         <td><%= ra.rate %></td>

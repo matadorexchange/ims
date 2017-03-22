@@ -33,6 +33,7 @@
          <%= mss.label :status %>
 	 <%= mss.select :status, options_for_select(["Active", "Inactive", "Suspended", "Closed"]) %>
       <% end %>
+      
 	<br/><br/>
       <%= f.submit "Create member", class: "btn btn-primary" %>
       <% end %>

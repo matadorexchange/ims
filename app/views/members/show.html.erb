@@ -1,0 +1,41 @@
+<% provide(:title, 'Edit Member') %>
+<h1>Edit Member</h1>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3" id="editMember">
+    <%= form_for(@eMember) do |f| %>
+
+     <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+
+      <%= f.label :sevens_id %>
+      <%= f.text_field :sevens_id, :disabled => true %>
+
+      <%= f.label :login %>
+      <%= f.text_field :login, :disabled => true %>
+
+      <%= f.label :source %>
+      <%= f.select :source, options_from_collection_for_select(User.all, :id, :login, @eMember.source) %>
+
+      <%= fields_for :rate do |r| %>
+        <%= r.label :rate %>
+        <%= r.number_field :rate, :value => @eRate.rate %>
+        <%= r.label :currency %>
+        <%= r.select :currency, options_for_select([ "INR", "USD", "AED"], @eRate.currency), :class => 'genForm_dropBox' %>
+      <% end %>
+      <%= f.label :master_agent_id%>
+      <%= f.select :master_agent_id, options_from_collection_for_select(MasterAgent.all, :id, :login, @eMasterAgent.id) %>
+
+      <%= fields_for :member_status do |mss| %>
+         <%= mss.label :status %>
+         <%= mss.select :status, options_for_select(["Active", "Inactive", "Suspended", "Closed"], @eMss.status) %>
+      <% end %>
+
+        <br/><br/>
+      <%= f.submit "Edit member", class: "btn btn-primary" %>
+      <% end %>
+  </div>
+</div>
+<br/><br/>

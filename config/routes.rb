@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   get '/members', to: 'members#index'
   get '/createmember', to: 'members#new'
   post '/members', to: 'members#create'
+  post 'memberdetails', to: 'member#edit'
+  get '/memberdetails', to: 'members#show'
 
   get '/users', to: 'users#new'
   post '/users', to: 'users#create'

@@ -14,15 +14,34 @@ class MembersController < ApplicationController
   end
 
   def show
+	@eMember = Member.find_by_login(params[:login])
+	@eMss = MemberStatus.find_by_member_id(@eMember.id)
+	@eRate = Rate.find_by_member_id(@eMember.id)
+	@eMasterAgent = MasterAgent.find(@eMember.master_agent_id)
+  
+  end
+
+  def update
 	#@members = Members.all
 	#puts " hello " 
-	#puts @members.inspect 
+	#puts @members.inspect
+	@eMem = Member.find(params[:id])
+	if @eMem.update_attributes(member_params)
+		@eRa = Rate.find_by_member_id(@eMem.id)
+        	@eMs = MemberStatus.find_by_member_id(@eMem.id)
+		@eRa.update_attributes(rate_params)
+		@eMs.update_attributes(mss_params)
+		flash[:success] = "Profile updated"
+		redirect_to :back
+	end
+ 
   end
 
   def create
   	@member = Member.new(member_params)
 	@rate = Rate.new(rate_params)
 	@mss = MemberStatus.new(mss_params)
+	@pts = PositionTaking.new
 	#puts @member.inspect
 	if @member.save
 		mm = Member.where("login=?",@member.login)
@@ -31,6 +50,25 @@ class MembersController < ApplicationController
 				#puts @rate.inspect
 				@rate.member_id = m.id
 				@mss.member_id = m.id
+				
+				# create default position taking
+				# saving for cricket
+				@pts.member_id = m.id
+				@pts.market_id = 1
+				@pts.position = 40
+				@pts.save
+				@pts = PositionTaking.new
+				#saving for football
+				@pts.member_id = m.id
+                                @pts.market_id = 2
+                                @pts.position = 40
+                                @pts.save
+				@pts = PositionTaking.new
+				#saving for tennis
+				@pts.member_id = m.id
+                                @pts.market_id = 3
+                                @pts.position = 40
+                                @pts.save
 			end	
 		else
 			puts "error creating rates"
@@ -55,4 +93,5 @@ class MembersController < ApplicationController
 	def mss_params
 		params.fetch(:member_status,{}).permit(:status)
 	end
+
 end
