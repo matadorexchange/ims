@@ -66,3 +66,7 @@ end
 
 gem 'roo-xls'
 gem 'goog_currency'
+gem 'poltergeist'
+gem 'phantomjs'
+gem 'watir'
+gem 'money'

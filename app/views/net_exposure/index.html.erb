@@ -1,0 +1,92 @@
+<% provide(:title, 'Net Exposure') %>
+<table>
+<tr>
+<td>
+<h1>Current Net Exposure</h1>
+<% @dataToPrint.each do |matchTitle, matchDataByAgent| %>
+	<h2><%= matchTitle %></h2>
+	<table class="table2">
+        <tr>
+		<th>Login</th>
+                <th>1 Coin</th>
+                <th>1 Matador Book (INR)</th>
+                <th>Draw Coin</th>
+                <th>Matador Draw Book (INR)</th>
+                <th>2 Coin</th>
+                <th>2 Matador Book (INR)</th>
+        </tr>
+	
+		<% oneCoin = 0 %>
+		<% oneWin = 0 %>
+		<% dCoin = 0%>
+		<% dWin = 0 %>
+		<% twoCoin = 0%>
+		<% twoWin = 0 %>
+		<% matchDataByAgent.each do |matchData| %>
+			<tr>
+				<% oneCoin = matchData[1].to_i + oneCoin %>
+				<% oneWin = matchData[2].to_i + oneWin %>
+				<% dCoin = matchData[3].to_i + dCoin %>
+                                <% dWin = matchData[4].to_i + dWin %>  
+				<% twoCoin = matchData[5].to_i + twoCoin %>
+                                <% twoWin = matchData[6].to_i + twoWin %>  	
+				<td><%= matchData[0].to_s %></td>
+				<td><% if matchData[1].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[1] %></td>
+				<td><% if matchData[2].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[2] %></td>
+				<td><% if matchData[3].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[3] %></td>
+				<td><% if matchData[4].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[4] %></td>
+				<td><% if matchData[5].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[5] %></td>
+				<td><% if matchData[6].to_i < 0 %> <font color="red"/><% else %><font color="#6CC417"/><% end %><%= matchData[6] %></td>
+			</tr>
+		<% end %>
+	<tr>
+		<th>Total</th>
+		<th> <% if oneCoin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /> <%end%><i><%= oneCoin %></i></th>
+		<th> <% if oneWin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /> <%end%><i><%= oneWin %></i></th>
+		<th> <% if dCoin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= dCoin %></i></th>
+		<th> <% if dWin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= dWin %></i></th>
+		<th> <% if twoCoin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= twoCoin %></i></th>
+		<th> <% if twoWin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= twoWin %></i></th>
+	</tr>
+	
+	</table>
+<% end %>
+</td>
+<td valign="top">
+<h1> Summarized Net User Exposure </h1>
+<table class ="table2">
+	<h2>Summary</h2>
+	<tr>
+		<th>Login</th>
+		<th>Member Max Coin Loss</th>
+		<th>Total Matador Win</th>
+		<th>Member Max Coin Win</th>
+		<th>Total Matador Loss</th>
+	</tr>
+	<% totalLossCoin = 0 %>
+	<% totalWin = 0 %>
+	<% totalWinCoin = 0 %>
+	<% totalLoss = 0 %>
+	<% @dataToPrintByUser.each do |user, userArray| %>
+		<tr>
+		<td><%= user %></td>
+		<td><% if userArray[0] < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%> <%= userArray[0] %></td>
+		<td><% if userArray[1] < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><%= userArray[1] %></td>
+		<td><% if userArray[2] < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><%= userArray[2] %></td>
+		<td><% if userArray[3] < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><%= userArray[3] %></td>
+		<% totalLossCoin = totalLossCoin + userArray[0] %>
+		<% totalWin = totalWin + userArray[1] %>
+		<% totalWinCoin = totalWinCoin + userArray[2] %>
+		<% totalLoss = totalLoss + userArray[3] %>
+		</tr>
+	<% end %>
+	<th>Total</th>
+	<th><% if totalLossCoin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalLossCoin %></i></th>
+	<th><% if totalWin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalWin %></i></th>
+	<th><% if totalWinCoin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalWinCoin %></i></th>
+	<th><% if totalLoss < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalLoss %></i></th>
+</table>
+</td>
+</tr>
+</table>
+

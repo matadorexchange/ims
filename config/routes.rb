@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'net_exposure/new'
+
   get 'user_settlement_summaries/new'
 
   get 'settlement_summaries/new'
@@ -54,4 +56,6 @@ Rails.application.routes.draw do
   get '/settlementdetails', to: 'settlements#show'
 
   get '/settlement_summaries', to: 'settlement_summaries#index'
+
+  get '/calculatenetexposure', to: 'net_exposure#index'
 end

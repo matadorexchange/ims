@@ -1,0 +1,14 @@
+require 'watir'
+
+browser = Watir::Browser.new
+
+browser.goto('http://backoffice.place')
+browser.input(id: 'username').send_keys('ss.7486')
+browser.input(id: 'password').send_keys('nutty31sjs07')
+browser.button(id: 'submit').click
+browser.link(:text => "Risk Management").click
+browser.link(:text => "Net Exposure").click
+puts browser.links.inspect
+sleep 5
+#puts browser.html
+browser.close
