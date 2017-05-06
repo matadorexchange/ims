@@ -1,5 +1,5 @@
 <% provide(:title, 'Net Exposure') %>
-<table>
+<table cellspacing = "10">
 <tr>
 <td>
 <h1>Current Net Exposure</h1>
@@ -48,6 +48,19 @@
 		<th> <% if twoCoin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= twoCoin %></i></th>
 		<th> <% if twoWin < 0 %> <font color = "#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= twoWin %></i></th>
 	</tr>
+	<tr>
+        <th colspan="3">Avg Price Book Placed</th>
+	<% bookedPrice = 0.00 %>
+	<% if oneWin < twoWin and oneWin != 0%>
+	<% bookedPrice = twoWin.to_f/oneWin %>
+	<% elsif oneWin!=0 and oneWin > twoWin %>
+	<% bookedPrice = oneWin.to_f/twoWin %>
+	<% end %>
+	<% if bookedPrice < 0 %>
+	<% bookedPrice = bookedPrice*-1 %>
+	<%end%>
+        <th colspan="4"><%= bookedPrice.round(2) %></th>
+        </tr>
 	
 	</table>
 <% end %>
@@ -80,11 +93,13 @@
 		<% totalLoss = totalLoss + userArray[3] %>
 		</tr>
 	<% end %>
+	<tr>
 	<th>Total</th>
 	<th><% if totalLossCoin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalLossCoin %></i></th>
 	<th><% if totalWin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalWin %></i></th>
 	<th><% if totalWinCoin < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalWinCoin %></i></th>
 	<th><% if totalLoss < 0 %> <font color ="#8B0000"/> <%else %> <font color = "#6CC417" /><%end%><i><%= totalLoss %></i></th>
+	</tr>
 </table>
 </td>
 </tr>

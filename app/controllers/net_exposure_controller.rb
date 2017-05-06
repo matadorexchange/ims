@@ -29,7 +29,7 @@ class NetExposureController < ApplicationController
 	id = 0
 	myLinks.each do |l|
         	browser.goto(l)
-        	sleep 2
+        	sleep 3
         	matches = browser.links.collect(&:href)
         	matches.each {|m|
                 	if m and m.to_s.include? "net-exposure-breakdown" and !m.to_s.include? "bet-breakdown"
@@ -48,12 +48,16 @@ class NetExposureController < ApplicationController
         	netBreakDownByAgents = Array.new
         	matchLinks.each do |ml|
                 	browser.goto(ml)
-                	sleep 2
+                	sleep 3
                         matchTitle = browser.td(:class, "cell-event-title ng-binding").text
                 	tableData = browser.table(:class, "apl-table apl-table-striped apl-table-hover table-M last").text
-                	netBreakDownByAgents << tableData
-                	netExposureBreakDown[matchTitle] = netBreakDownByAgents
-        	end
+                	puts "Match Title ===  " + matchTitle + "\n"
+			puts tableData
+			netBreakDownByAgents << tableData
+			if !netExposureBreakDown.include?(matchTitle)
+				netExposureBreakDown[matchTitle] = netBreakDownByAgents
+			end
+		end
         	matchTitle = ""
 	end
 	puts "Net Exposure\n"
@@ -67,17 +71,22 @@ class NetExposureController < ApplicationController
 			dt = dataLine.split("\n")
 			puts dt.inspect
 			dt.each do |ab|
+				teamOneC = 0
+				teamDC = 0
+				teamTwoC = 0
 				properData = ab.split(' ')
 				userData = Array.new
 				userData [0] = properData[0]
-				teamOneC = properData[2].gsub(',','').to_i
+				if properData[2]
+					teamOneC = properData[2].gsub(',','').to_i
+				end
 				userData[1] = teamOneC
 			
 				userRate = 0
 				currency_rate = 1
 				puts properData[0]
-				if properData[0].include? "rlx" or properData[0].include? "dadaji" or properData[0].include? "gaurav"
-					userRate = 125 - 60
+				if properData[0] and properData[0].include? "ruch" or properData[0].include? "dimple" or properData[0].include? "rlx" or properData[0].include? "dadaji" or properData[0].include? "gaurav"
+					userRate = 60
 				else
 					member = Member.find_by_login(properData[0])
 					uRate = Rate.find_by_member_id(member.id)
@@ -88,13 +97,17 @@ class NetExposureController < ApplicationController
 					userRate = (uRate.rate)*currency_rate - 60
 				end
 				userData[2] = teamOneC*userRate*(-1)
-				teamDC = properData[3].gsub(',','').to_i
+				if properData[3]
+					teamDC = properData[3].gsub(',','').to_i
+				end
 				userData[3] = teamDC
 				userData[4] = '-'
 				if (properData[3] != '-')
 					userData[4] = teamDC*userRate*(-1)
 				end
-				teamTwoC = properData[4].gsub(',','').to_i
+				if properData[4]
+					teamTwoC = properData[4].gsub(',','').to_i
+				end
 				userData[5] = teamTwoC
 				userData[6] = teamTwoC*userRate*(-1)
 				puts userData.inspect
@@ -134,7 +147,6 @@ class NetExposureController < ApplicationController
 		end
 		@dataToPrint[matchTitle] = byMatchData
 	end
-	puts @dataToPrintByUser.inspect
 	browser.close
   end
 
